@@ -10,4 +10,31 @@ This paper proposes using the combination of two perspectives in fluid dynamics,
 
 ## Eulerian vs. Lagrangian perspectives
 
+## DeepLag vs. previous methods
+
+## Eulag Block
+
+## Get Started
+
+## Results
+
+## Citation
+
+If you find [DeepLag](https://arxiv.org/abs/2402.02425) or this repo useful, please kindly consider citing our paper.
+
+```
+@inproceedings{ma2024deeplag,
+  title={DeepLag: Discovering Deep Lagrangian Dynamics for Intuitive Fluid Prediction},
+  author={Qilong Ma and Haixu Wu and Lanxiang Xing and Shangchen Miao and Mingsheng Long},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2024}
+}
+```
+
+## Contact
+
+If you have any questions or want to use the code, please contact [mql22@mails.tsinghua.edu.cn](mailto:mql22@mails.tsinghua.edu.cn).
+
+## Acknowledgement
+
 To be continued...
