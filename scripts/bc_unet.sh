@@ -1,0 +1,40 @@
+export CUDA_VISIBLE_DEVICES=6
+
+python exp_bc_h.py \
+  --dataset-nickname bc \
+  --data-path /home/miaoshangchen/NAS/Bounded_NS \
+  --ntrain 2000 \
+  --ntest  500 \
+  --ntotal 3000 \
+  --in-dim 5 \
+  --out-dim 1 \
+  --in-var 1 \
+  --out-var 1 \
+  --has-t \
+  --tmin 0 \
+  --tmax 9 \
+  --h 512 \
+  --w 512 \
+  --h-down 2 \
+  --w-down 2 \
+  --T-in 5 \
+  --T-out 5 \
+  --batch-size 1 \
+  --learning-rate 0.0002 \
+  --epochs 101 \
+  --step-size 100 \
+  --model UNet_2D \
+  --model-nickname unet \
+  --d-model 64 \
+  --num-samples 512 \
+  --num-layers 4 \
+  --num-basis 12 \
+  --num-token 4 \
+  --patch-size 4,4 \
+  --padding 0,0 \
+  --kernel-size 3 \
+  --offset-ratio-range 16,8 \
+  --resample-strategy learned \
+  --model-save-path ./checkpoints/bc \
+  --model-save-name unet.pt \
+  --delta-t 2

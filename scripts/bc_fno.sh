@@ -1,0 +1,34 @@
+export CUDA_VISIBLE_DEVICES=6
+
+python exp_bc.py \
+  --dataset-nickname bc \
+  --data-path /home/miaoshangchen/NAS/Bounded_NS \
+  --ntrain 2000 \
+  --ntest  500 \
+  --ntotal 3000 \
+  --in-dim 10 \
+  --out-dim 1 \
+  --in-var 1 \
+  --out-var 1 \
+  --has-t \
+  --tmin 0 \
+  --tmax 9 \
+  --h 512 \
+  --w 512 \
+  --h-down 2 \
+  --w-down 2 \
+  --T-in 10 \
+  --T-out 10 \
+  --batch-size 1 \
+  --learning-rate 0.0005 \
+  --epochs 101 \
+  --model FNO_2D \
+  --model-nickname fno \
+  --d-model 64 \
+  --num-basis 12 \
+  --num-token 4 \
+  --patch-size 1,1 \
+  --padding 0,0 \
+  --model-save-path ./checkpoints/bc \
+  --model-save-name fno.pt \
+  --num-layers 10 \

@@ -1,0 +1,41 @@
+export CUDA_VISIBLE_DEVICES=2
+
+python exp_sea_h.py \
+  --dataset-nickname sea \
+  --data-path /home/miaoshangchen/NAS/sea_data_small/data_sea \
+  --region kuroshio \
+  --ntrain 3000 \
+  --ntest  600 \
+  --ntotal 3600 \
+  --in-dim 10 \
+  --out-dim 1 \
+  --in-var 5 \
+  --out-var 5 \
+  --has-t \
+  --tmin 0 \
+  --tmax 9 \
+  --h 180 \
+  --w 300 \
+  --h-down 1 \
+  --w-down 1 \
+  --T-in 10 \
+  --T-out 10 \
+  --fill-value \-32760 \
+  --batch-size 2 \
+  --learning-rate 0.0005 \
+  --epochs 101 \
+  --step-size 20 \
+  --model DeepLag_2D \
+  --model-nickname deeplag \
+  --d-model 64 \
+  --num-samples 512 \
+  --num-layers 4 \
+  --num-basis 12 \
+  --num-token 4 \
+  --patch-size 2,2 \
+  --padding 12,20 \
+  --kernel-size 5 \
+  --offset-ratio-range 16,8 \
+  --resample-strategy learned \
+  --model-save-path ./checkpoints/sea \
+  --model-save-name deeplag.pt

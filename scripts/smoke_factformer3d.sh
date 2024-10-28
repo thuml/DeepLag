@@ -1,0 +1,44 @@
+export CUDA_VISIBLE_DEVICES=4
+
+python exp_smoke_h.py \
+  --dataset-nickname smoke \
+  --data-path /home/miaoshangchen/NAS/smoke_data \
+  --ntrain 1000 \
+  --ntest  200 \
+  --ntotal 1200 \
+  --in-dim 10 \
+  --out-dim 1 \
+  --in-var 4 \
+  --out-var 4 \
+  --has-t \
+  --tmin 0 \
+  --tmax 9 \
+  --h 32 \
+  --w 32 \
+  --z 32 \
+  --h-down 1 \
+  --w-down 1 \
+  --z-down 1 \
+  --T-in 10 \
+  --T-out 10 \
+  --batch-size 1 \
+  --learning-rate 0.0005 \
+  --epochs 101 \
+  --step-size 100 \
+  --model Factformer_3D \
+  --model-nickname factformer3d \
+  --depth 13 \
+  --d-model 64 \
+  --heads 6 \
+  --dim-head 64 \
+  --num-samples 512 \
+  --num-layers 4 \
+  --num-basis 12 \
+  --num-token 4 \
+  --patch-size 1,1,1 \
+  --padding 0,0,0 \
+  --kernel-size 3 \
+  --offset-ratio-range 16,8 \
+  --resample-strategy learned \
+  --model-save-path ./checkpoints/smoke \
+  --model-save-name factformer3d.pt
