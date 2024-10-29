@@ -72,8 +72,8 @@ bash scripts/bc_deeplag.sh # Train DeepLag on Bounded Navier-Stokes
 bash scripts/bc_{baseline_name}.sh # Train baseline on Bounded Navier-Stokes. baseline_name: factformer, fno, gktrm (Galerkin Transformer), gnot, lsm, unet, vortex
 bash scripts/sea_deeplag.sh # Train DeepLag on Ocean Current
 bash scripts/sea_{baseline_name}.sh # Train baseline on Ocean Current. baseline_name: factformer, fno, gktrm (Galerkin Transformer), gnot, lsm, unet, vortex
-bash scripts/smoke_deeplag3d.sh # Train DeepLag on Ocean Current
-bash scripts/smoke_{baseline_name}3d.sh # Train baseline on Ocean Current. baseline_name: factformer, fno, gktrm (Galerkin Transformer), gnot, lsm, unet
+bash scripts/smoke_deeplag3d.sh # Train DeepLag on 3D Smoke
+bash scripts/smoke_{baseline_name}3d.sh # Train baseline on 3D Smoke. baseline_name: factformer, fno, gktrm (Galerkin Transformer), gnot, lsm, unet
 ```
 
 To perform standard and long-rollout test with model checkpoints:
