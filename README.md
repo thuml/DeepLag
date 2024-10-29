@@ -13,7 +13,7 @@ This paper proposes using the combination of two perspectives in fluid dynamics,
 Unlike the Eulerian methods, which observe fluid flow at fixed spatial locations, the Lagrangian approach describes the fluid dynamics through the moving trajectory of individual fluid particles, offering a more natural and neat representation of fluid dynamics with inherent advantages in capturing intricate flow dynamics.
 
 <p align="center">
-<img src=".\pic\traj.png" height="100" alt="" align=center />
+<img src=".\pic\traj.png" height="150" alt="" align=center />
 <br><br>
 <b>Figure 1.</b> Comparison between Lagrangian (left) and Eulerian (right) perspectives.
 </p>
@@ -33,7 +33,7 @@ Instead of solely predicting the future based on Eulerian observations, we propo
 We present the EuLag Block, a powerful module that accomplishes Lagrangian tracking and Eulerian predicting at various scales. By leveraging the cross-attention mechanism, the EuLag Block assimilates tracked Lagrangian particle dynamics into the Eulerian field, guiding fluid prediction. It also forecasts the trajectory and dynamics of Lagrangian particles with the aid of Eulerian features.
 
 <p align="center">
-<img src=".\pic\eulag_block_v4.2.png" height = "140" alt="" align=center />
+<img src=".\pic\eulag_block_v4.2.png" height = "175" alt="" align=center />
 <br><br>
 <b>Figure 3.</b> Overview of the EuLag Block.
 </p>
