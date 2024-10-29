@@ -92,30 +92,30 @@ bash test_all_longrollout.sh
 
 We extensively experiment on three challenging benchmarks and compare DeepLag with seven baselines. DeepLag achieves the consistent state-of-the-art in both 2D and 3D fluid dynamics (~15% averaged error reduction on **Relative L2**).
 
-| Model               | Bounded Navier-Stokes |               |          | Ocan Current |               |          | 3D Smoke |
-|---------------------|-----------------|---------------|----------|-----------------|---------------|----------|-----------------|
-|                     | **10 Frames**   | **30 Frames** |          | **10 Days**     | **30 Days**   |          |                 |
-| U-Net           | 0.0618          | 0.1038        |          | 0.0185          | 0.0297        |          | 0.0508          |
-| FNO             | 0.1041          | 0.1282        |          | 0.0246          | 0.0420        |          | 0.0635          |
-| Galerkin Transformer  | 0.1084    | 0.1369        |          | 0.0323          | 0.0515        |          | 0.1066          |
-| Vortex           | 0.1999         | NaN           |          | 0.9548          | NaN           |          |    -            |
-| GNOT            | 0.1388          | 0.1793        |          | 0.0206          | 0.0336        |          | 0.2100          |
-| LSM             | 0.0643          | 0.1020        |          | 0.0182          | 0.0290        |          | 0.0527          |
-| FactFormer      | 0.0733          | 0.1195        |          | 0.0183          | 0.0296        |          | 0.0793          |
-| **DeepLag (Ours)**  | **0.0543**      | **0.0993**    |          | **0.0168**      | **0.0257**    |          | **0.0378**      |
-| **Promotion**       | 13.8%           | 2.7%          |          | 8.3%            | 12.8%         |          | 34.4%           |
+| Model                | Bounded Navier-Stokes |         | Ocan Current    |               |  3D Smoke       |
+|----------------------|-----------------|---------------|-----------------|---------------|-----------------|
+|                      | **10 Frames**   | **30 Frames** | **10 Days**     | **30 Days**   |                 |
+| U-Net                | 0.0618          | 0.1038        | 0.0185          | 0.0297        | 0.0508          |
+| FNO                  | 0.1041          | 0.1282        | 0.0246          | 0.0420        | 0.0635          |
+| Galerkin Transformer | 0.1084          | 0.1369        | 0.0323          | 0.0515        | 0.1066          |
+| Vortex               | 0.1999          | NaN           | 0.9548          | NaN           |    -            |
+| GNOT                 | 0.1388          | 0.1793        | 0.0206          | 0.0336        | 0.2100          |
+| LSM                  | 0.0643          | 0.1020        | 0.0182          | 0.0290        | 0.0527          |
+| FactFormer           | 0.0733          | 0.1195        | 0.0183          | 0.0296        | 0.0793          |
+| **DeepLag (Ours)**   | **0.0543**      | **0.0993**    | **0.0168**      | **0.0257**    | **0.0378**      |
+| **Promotion**        | 13.8%           | 2.7%          | 8.3%            | 12.8%         | 34.4%           |
 
 ## Videos of long-term prediction
 
 <p align="center">
-<img src=".\pic\bounded-navier-stokes.gif" height = "140" alt="" align=center />
+<img src=".\pic\bounded-navier-stokes.gif" height = "200" alt="" align=center />
 <br><br>
 <b>Figure 4.</b> Video of Bounded Navier-Stokes dataset. DeepLag can precisely illustrate the vortex in the center of the figure and give a reasonable motion mode of the Kármán vortex phenomenon formed behind the upper left pillar.
 </p>
 
 
 <p align="center">
-<img src=".\pic\ocean-current.gif" height = "140" alt="" align=center />
+<img src=".\pic\ocean-current.gif" height = "200" alt="" align=center />
 <br><br>
 <b>Figure 5.</b> Video of Ocean Current dataset. DeepLag accurately predicts the location of the high-temperature region to the south area and provides a clear depiction of the Kuroshio pattern.
 </p>
