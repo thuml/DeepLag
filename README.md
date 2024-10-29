@@ -13,7 +13,7 @@ This paper proposes using the combination of two perspectives in fluid dynamics,
 Unlike the Eulerian methods, which observe fluid flow at fixed spatial locations, the Lagrangian approach describes the fluid dynamics through the moving trajectory of individual fluid particles, offering a more natural and neat representation of fluid dynamics with inherent advantages in capturing intricate flow dynamics.
 
 <p align="center">
-<img src=".\pic\traj.pdf" height="150" alt="" align=center />
+<img src=".\pic\traj.png" height="100" alt="" align=center />
 <br><br>
 <b>Figure 1.</b> Comparison between Lagrangian (left) and Eulerian (right) perspectives.
 </p>
@@ -23,7 +23,7 @@ Unlike the Eulerian methods, which observe fluid flow at fixed spatial locations
 Instead of solely predicting the future based on Eulerian observations, we propose DeepLag to discover hidden Lagrangian dynamics within the fluid by tracking the movements of adaptively sampled key particles. Further, DeepLag presents a new paradigm for fluid prediction, where the Lagrangian movement of the tracked particles is inferred from Eulerian observations, and their accumulated Lagrangian dynamics information is incorporated into global Eulerian evolving features to guide future prediction respectively.
 
 <p align="center">
-<img src=".\pic\framework_v4.2.pdf" height = "370" alt="" align=center />
+<img src=".\pic\framework_v4.2.png" height = "250" alt="" align=center />
 <br><br>
 <b>Figure 2.</b> Three types of neural fluid prediction models (a-c) and overview of DeepLag (d).
 </p>
@@ -33,7 +33,7 @@ Instead of solely predicting the future based on Eulerian observations, we propo
 We present the EuLag Block, a powerful module that accomplishes Lagrangian tracking and Eulerian predicting at various scales. By leveraging the cross-attention mechanism, the EuLag Block assimilates tracked Lagrangian particle dynamics into the Eulerian field, guiding fluid prediction. It also forecasts the trajectory and dynamics of Lagrangian particles with the aid of Eulerian features.
 
 <p align="center">
-<img src=".\pic\eulag_block_v4.2.pdf" height = "370" alt="" align=center />
+<img src=".\pic\eulag_block_v4.2.png" height = "140" alt="" align=center />
 <br><br>
 <b>Figure 3.</b> Overview of the EuLag Block.
 </p>
@@ -47,6 +47,23 @@ pip install -r requirements.txt
 ```
 
 2. Download data. If you download model checkpoints (optional), put them under the folder `./checkpoints/`.
+
+| Benchmark         | Task                           |  Download                                                        |
+|-------------------|--------------------------------| ----------------------------------------------------------- |
+| Bounded Navier-Stokes   | Predict future dye concentration | [uploading]() |
+| Ocean Current     | Predict future marine physical quantities            | [uploading]() |
+| 3D Smoke       | Predict future smoke diffusion    | [uploading]() |
+
+| Model         | Paper                           |  Checkpoint                                                        |
+|-------------------|--------------------------------| ----------------------------------------------------------- |
+| U-Net  | [paper](https://arxiv.org/abs/1505.04597) (MICCAI 2015) | [uploading]() |
+| FNO    | [paper](https://arxiv.org/abs/2010.08895) (ICLR 2021)            | [uploading]() |
+| Galerkin Transformer       | [paper](https://arxiv.org/abs/2105.14995) (NeurIPS 2021)    | [uploading]() |
+| GNOT      | [paper](https://arxiv.org/abs/2302.14376) (ICML 2023)    | [uploading]() |
+| LSM       | [paper](https://arxiv.org/abs/2301.12664) (ICML 2023)    | [uploading]() |
+| Factformer       | [paper](https://arxiv.org/abs/2305.17560) (NeurIPS 2023)    | [uploading]() |
+| Vortex       | [paper](https://arxiv.org/abs/2301.11494) (ICLR 2023)    | [uploading]() |
+| **DeepLag (Ours)**      | [paper](https://arxiv.org/abs/2402.02425) (NeurIPS 2024)    | [uploading]() |
 
 3. Train and evaluate model. We provide the experiment scripts of all benchmarks under the folder `./scripts/`. You can reproduce the experiment results as the following examples:
 
@@ -66,7 +83,40 @@ bash test_all.sh
 bash test_all_longrollout.sh
 ```
 
+4. Develop your own model. Here are the instructions:
+   - Add the model file under folder `./models/`.
+   - Add the model name into `./model_dict.py`.
+   - Add a script file under folder `./scripts/` and change the arguments related to the model.
+
 ## Results
+
+We extensively experiment on three challenging benchmarks and compare DeepLag with seven baselines. DeepLag achieves the consistent state-of-the-art in both 2D and 3D fluid dynamics (~15% averaged error reduction on **Relative L2**).
+
+| Model               | Bounded Navier-Stokes |               |          | Ocan Current |               |          | 3D Smoke |               |
+|---------------------|-----------------|---------------|----------|-----------------|---------------|----------|-----------------|---------------|
+|                     | **10 Frames**   | **30 Frames** |          | **10 Days**     | **30 Days**   |          |                 |               |
+| U-Net           | 0.0618          | 0.1038        |          | 0.0185          | 0.0297        |          | 0.0508          |               |
+| FNO             | 0.1041          | 0.1282        |          | 0.0246          | 0.0420        |          | 0.0635          |               |
+| Galerkin Transformer  | 0.1084    | 0.1369        |          | 0.0323          | 0.0515        |          | 0.1066          |               |
+| Vortex           | 0.1999         | NaN           |          | 0.9548          | NaN           |          |    -            |               |
+| GNOT            | 0.1388          | 0.1793        |          | 0.0206          | 0.0336        |          | 0.2100          |               |
+| LSM             | 0.0643          | 0.1020        |          | 0.0182          | 0.0290        |          | 0.0527          |               |
+| FactFormer      | 0.0733          | 0.1195        |          | 0.0183          | 0.0296        |          | 0.0793          |               |
+| **DeepLag (Ours)**  | **0.0543**      | **0.0993**    |          | **0.0168**      | **0.0257**    |          | **0.0378**      |               |
+| **Promotion**       | 13.8%           | 2.7%          |          | 8.3%            | 12.8%         |          | 34.4%           |               |
+
+## Videos of long-term prediction
+
+<video src="./pic/bounded_navier-stokes.mp4"></video>
+<br><br>
+<b>Figure 4.</b> Video of Bounded Navier-Stokes dataset. DeepLag can precisely illustrate the vortex in the center of the figure and give a reasonable motion mode of the Kármán vortex phenomenon formed behind the upper left pillar.
+</p>
+
+
+<video src="./pic/ocean_current.mp4"></video>
+<br><br>
+<b>Figure 5.</b> Video of Ocean Current dataset. DeepLag accurately predicts the location of the high-temperature region to the south area and provides a clear depiction of the Kuroshio pattern.
+</p>
 
 ## Citation
 
@@ -87,4 +137,6 @@ If you have any questions or want to use the code, please contact [mql22@mails.t
 
 ## Acknowledgement
 
-To be continued...
+We appreciate the following github repos a lot for their valuable code base or datasets:
+
+https://github.com/takah29/2d-fluid-simulator
