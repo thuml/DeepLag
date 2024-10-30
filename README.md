@@ -50,9 +50,11 @@ pip install -r requirements.txt
 
 | Benchmark             | Nickname        | Task                                      |  Download                                                     |
 |-----------------------|-----------------|-------------------------------------------| --------------------------------------------------------------|
-| Bounded Navier-Stokes | bc              | Predict future dye concentration          | [uploading]() |
+| Bounded Navier-Stokes | bc              | Predict future dye concentration          | [Link](https://cloud.tsinghua.edu.cn/d/87bb7d8a9778480a90e2/) |
 | Ocean Current         | sea             | Predict future marine physical quantities | [Link](https://cloud.tsinghua.edu.cn/d/6e5e65c92a9e425cbbd4/) |
 | 3D Smoke              | smoke           | Predict future smoke diffusion            | [Link](https://cloud.tsinghua.edu.cn/d/bf49048a035d4d70b790/) |
+
+Note: you need to use `merge_npy_files` in `utils/split_merge_npy_file.py` to combine the splits of Bounded Navier-Stokes into one `.npy` file before running experiments.
 
 We also provide model checkpoints of DeepLag and all baselines on three benchmarks. If you download them (optional), put them under the folder `./checkpoints/`.
 
@@ -69,7 +71,7 @@ We also provide model checkpoints of DeepLag and all baselines on three benchmar
 
 Download Link: [Link](https://cloud.tsinghua.edu.cn/d/4fb89592f8f141c98ca4/). The path format is `{benchmark_nickname}/{model_name}/{time_str}/{model_nickname}_best.pt`
 
-3. Train and evaluate model. We provide the experiment scripts of all benchmarks under the folder `./scripts/`. You can reproduce the experiment results as the following examples:
+3. Train and evaluate model. We provide the experiment scripts of all benchmarks under the folder `./scripts/`. After replacing `--data-path` in the scripts with your local data directory, you can reproduce the experiment results via the following commands:
 
 ```shell
 bash scripts/bc_deeplag.sh # Train DeepLag on Bounded Navier-Stokes
