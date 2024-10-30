@@ -23,7 +23,7 @@ Unlike the Eulerian methods, which observe fluid flow at fixed spatial locations
 Instead of solely predicting the future based on Eulerian observations, we propose DeepLag to discover hidden Lagrangian dynamics within the fluid by tracking the movements of adaptively sampled key particles. Further, DeepLag presents a new paradigm for fluid prediction, where the Lagrangian movement of the tracked particles is inferred from Eulerian observations, and their accumulated Lagrangian dynamics information is incorporated into global Eulerian evolving features to guide future prediction respectively.
 
 <p align="center">
-<img src=".\pic\framework_v4.2.png" height = "250" alt="" align=center />
+<img src=".\pic\framework_v4.3.png" height = "250" alt="" align=center />
 <br><br>
 <b>Figure 2.</b> Three types of neural fluid prediction models (a-c) and overview of DeepLag (d).
 </p>
@@ -33,7 +33,7 @@ Instead of solely predicting the future based on Eulerian observations, we propo
 We present the EuLag Block, a powerful module that accomplishes Lagrangian tracking and Eulerian predicting at various scales. By leveraging the cross-attention mechanism, the EuLag Block assimilates tracked Lagrangian particle dynamics into the Eulerian field, guiding fluid prediction. It also forecasts the trajectory and dynamics of Lagrangian particles with the aid of Eulerian features.
 
 <p align="center">
-<img src=".\pic\eulag_block_v4.2.png" height = "175" alt="" align=center />
+<img src=".\pic\eulag_block_v4.3.png" height = "175" alt="" align=center />
 <br><br>
 <b>Figure 3.</b> Overview of the EuLag Block.
 </p>
