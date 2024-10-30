@@ -48,26 +48,26 @@ pip install -r requirements.txt
 
 2. Download data. 
 
-| Benchmark             | Task                                      |  Download                                                     |
-|-----------------------|-------------------------------------------| --------------------------------------------------------------|
-| Bounded Navier-Stokes | Predict future dye concentration          | [uploading]() |
-| Ocean Current         | Predict future marine physical quantities | [Link](https://cloud.tsinghua.edu.cn/d/6e5e65c92a9e425cbbd4/) |
-| 3D Smoke              | Predict future smoke diffusion            | [Link](https://cloud.tsinghua.edu.cn/d/bf49048a035d4d70b790/) |
+| Benchmark             | Nickname        | Task                                      |  Download                                                     |
+|-----------------------|-----------------|-------------------------------------------| --------------------------------------------------------------|
+| Bounded Navier-Stokes | bc              | Predict future dye concentration          | [uploading]() |
+| Ocean Current         | sea             | Predict future marine physical quantities | [Link](https://cloud.tsinghua.edu.cn/d/6e5e65c92a9e425cbbd4/) |
+| 3D Smoke              | smoke           | Predict future smoke diffusion            | [Link](https://cloud.tsinghua.edu.cn/d/bf49048a035d4d70b790/) |
 
 We also provide model checkpoints of DeepLag and all baselines on three benchmarks. If you download them (optional), put them under the folder `./checkpoints/`.
 
-| Model                | Paper                                                    |
-|----------------------|----------------------------------------------------------|
-| U-Net                | [paper](https://arxiv.org/abs/1505.04597) (MICCAI 2015)  |
-| FNO                  | [paper](https://arxiv.org/abs/2010.08895) (ICLR 2021)    |
-| Galerkin Transformer | [paper](https://arxiv.org/abs/2105.14995) (NeurIPS 2021) |
-| GNOT                 | [paper](https://arxiv.org/abs/2302.14376) (ICML 2023)    |
-| LSM                  | [paper](https://arxiv.org/abs/2301.12664) (ICML 2023)    |
-| Factformer           | [paper](https://arxiv.org/abs/2305.17560) (NeurIPS 2023) |
-| Vortex               | [paper](https://arxiv.org/abs/2301.11494) (ICLR 2023)    |
-| **DeepLag (Ours)**   | [paper](https://arxiv.org/abs/2402.02425) (NeurIPS 2024) |
+| Model                | Nickname        | Paper                                                    |
+|----------------------|-----------------|----------------------------------------------------------|
+| U-Net                | unet            | [paper](https://arxiv.org/abs/1505.04597) (MICCAI 2015)  |
+| FNO                  | fno             | [paper](https://arxiv.org/abs/2010.08895) (ICLR 2021)    |
+| Galerkin Transformer | gktrm           | [paper](https://arxiv.org/abs/2105.14995) (NeurIPS 2021) |
+| GNOT                 | gnot            | [paper](https://arxiv.org/abs/2302.14376) (ICML 2023)    |
+| LSM                  | lsm             | [paper](https://arxiv.org/abs/2301.12664) (ICML 2023)    |
+| Factformer           | factformer      | [paper](https://arxiv.org/abs/2305.17560) (NeurIPS 2023) |
+| Vortex               | vortex          | [paper](https://arxiv.org/abs/2301.11494) (ICLR 2023)    |
+| **DeepLag (Ours)**   | deeplag         | [paper](https://arxiv.org/abs/2402.02425) (NeurIPS 2024) |
 
-Download Link: [Link](https://cloud.tsinghua.edu.cn/d/4fb89592f8f141c98ca4/). The path format is `{dataset_nickname}/{model_name}/{time_str}/{model_nickname}_best.pt`
+Download Link: [Link](https://cloud.tsinghua.edu.cn/d/4fb89592f8f141c98ca4/). The path format is `{benchmark_nickname}/{model_name}/{time_str}/{model_nickname}_best.pt`
 
 3. Train and evaluate model. We provide the experiment scripts of all benchmarks under the folder `./scripts/`. You can reproduce the experiment results as the following examples:
 
