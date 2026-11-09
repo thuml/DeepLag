@@ -50,13 +50,31 @@ pip install -r requirements.txt
 
 | Benchmark             | Nickname        | Task                                      |  Download                                                     |
 |-----------------------|-----------------|-------------------------------------------| --------------------------------------------------------------|
-| Bounded Navier-Stokes | bc              | Predict future dye concentration          | [Link](https://cloud.tsinghua.edu.cn/d/87bb7d8a9778480a90e2/) |
-| Ocean Current         | sea             | Predict future marine physical quantities | [Link](https://cloud.tsinghua.edu.cn/d/6e5e65c92a9e425cbbd4/) |
-| 3D Smoke              | smoke           | Predict future smoke diffusion            | [Link](https://cloud.tsinghua.edu.cn/d/bf49048a035d4d70b790/) |
+| Bounded Navier-Stokes | bc              | Predict future dye concentration          | [Link](https://zenodo.org/records/24057429) |
+| Ocean Current         | sea             | Predict future marine physical quantities | [Link](https://zenodo.org/records/24057429) |
+| 3D Smoke              | smoke           | Predict future smoke diffusion            | [Link](https://zenodo.org/records/24057429/files/3D_Smoke.tar?download=1) |
 
-Note: you need to use `merge_npy_files` in `utils/split_merge_npy_file.py` to combine the splits of Bounded Navier-Stokes into one `.npy` file before running experiments.
+All datasets and checkpoints are archived on [Zenodo](https://zenodo.org/records/24057429), DOI: [10.5281/zenodo.24057429](https://doi.org/10.5281/zenodo.24057429).
 
-We also provide model checkpoints of DeepLag and all baselines on three benchmarks. If you download them (optional), put them under the folder `./checkpoints/`.
+- **Bounded Navier-Stokes:** download `re0.25_4c_gray_10000.npy` and `boundary_4c_rot.npy` into `data/Bounded_NS/`. The full array is already combined; no split-file merge is needed.
+- **Ocean Current:** download `sea_kuroshio.npy`, `sea_kuroshio_mean.npy`, and `land_mask_reconstructed.npy` into `data/Ocean_Current/`. These are processed arrays, not the original daily raw frames. For `SeaDatasetMemory`, create an empty `data/Ocean_Current/data_sea/` directory and set `--data-path` to that directory; the loader reads the aggregate from its parent directory. The main array has shape `(3650, 180, 300, 5)`.
+- **3D Smoke:** extract `3D_Smoke.tar` at the repository root; it contains `data/3D_Smoke/smoke_data_32_32_32/*.npz`.
+
+The supplied ocean mask has shape `(180, 300)` and dtype `float32`, with land = 1 and sea = 0. When using these processed ocean arrays, replace the body of `get_land_sea_mask` in `utils/utilities3.py` with the following loader (the original implementation expects a raw daily frame):
+
+```python
+def get_land_sea_mask(data_path, mask_value):
+    mask_path = os.path.join(data_path, '..', 'land_mask_reconstructed.npy')
+    mask = np.load(mask_path, allow_pickle=False)
+    if mask.shape != (180, 300) or not np.isin(mask, [0, 1]).all():
+        raise ValueError('Expected a binary 180 x 300 land mask')
+    land = torch.from_numpy(mask.astype(np.float32))
+    return land, 1.0 - land
+```
+
+This setup uses the supplied grid directly, without resizing or downsampling. The ocean data retain the [Copernicus Marine Service terms](https://marine.copernicus.eu/user-corner/service-commitments-and-licence); see the Zenodo record for licensing details. The `SmokeDatasetMemory` cache-generation path invokes `sudo cp` when its cache is absent; use the NPZ-reading `SmokeDataset` or a user-writable cache workflow instead of blindly running privileged commands.
+
+We also provide model checkpoints of DeepLag and all baselines on three benchmarks. Download `checkpoints.tar` (optional) and extract it at the repository root; it already contains the `checkpoints/` directory and all supplied benchmark/model subdirectories.
 
 | Model                | Nickname        | Paper                                                    |
 |----------------------|-----------------|----------------------------------------------------------|
@@ -69,7 +87,7 @@ We also provide model checkpoints of DeepLag and all baselines on three benchmar
 | Vortex               | vortex          | [paper](https://arxiv.org/abs/2301.11494) (ICLR 2023)    |
 | **DeepLag (Ours)**   | deeplag         | [paper](https://arxiv.org/abs/2402.02425) (NeurIPS 2024) |
 
-Download Link: [Link](https://cloud.tsinghua.edu.cn/d/4fb89592f8f141c98ca4/). The path format is `{benchmark_nickname}/{model_name}/{time_str}/{model_nickname}_best.pt`
+Download Link: [Link](https://zenodo.org/records/24057429/files/checkpoints.tar?download=1). The path format is `{benchmark_nickname}/{model_name}/{time_str}/{model_nickname}_best.pt`
 
 3. Train and evaluate model. We provide the experiment scripts of all benchmarks under the folder `./scripts/`. After replacing `--data-path` in the scripts with your local data directory, you can reproduce the experiment results via the following commands:
 
@@ -141,7 +159,7 @@ If you find [DeepLag](https://arxiv.org/abs/2402.02425) or this repo useful, ple
 
 ## Contact
 
-If you have any questions or want to use the code, please contact [mql22@mails.tsinghua.edu.cn](mailto:mql22@mails.tsinghua.edu.cn).
+If you have any questions or want to use the code, please contact [mql22@tsinghua.org.cn](mailto:mql22@tsinghua.org.cn).
 
 ## Acknowledgement
 
