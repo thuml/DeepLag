@@ -40,7 +40,7 @@ We present the EuLag Block, a powerful module that accomplishes Lagrangian track
 
 ## Get Started
 
-1. Install Python 3.10 then required packages. For convenience, execute the following command.
+1. Use Python 3.10 and an NVIDIA GPU with a CUDA-compatible PyTorch installation (the scripts use `.cuda()`; CPU/MPS execution is not supported as-is). Install the required packages:
 
 ```shell
 pip install -r requirements.txt
@@ -72,7 +72,16 @@ def get_land_sea_mask(data_path, mask_value):
     return land, 1.0 - land
 ```
 
-This setup uses the supplied grid directly, without resizing or downsampling. The ocean data retain the [Copernicus Marine Service terms](https://marine.copernicus.eu/user-corner/service-commitments-and-licence); see the Zenodo record for licensing details. The `SmokeDatasetMemory` cache-generation path invokes `sudo cp` when its cache is absent; use the NPZ-reading `SmokeDataset` or a user-writable cache workflow instead of blindly running privileged commands.
+This setup uses the supplied grid directly, without resizing or downsampling. The ocean data retain the [Copernicus Marine Service terms](https://marine.copernicus.eu/user-corner/service-commitments-and-licence); see the Zenodo record for licensing details.
+
+For **3D Smoke**, use a data directory you can write to. In `utils/data_factory.py`, inside `SmokeDatasetMemory._load_dataset`, replace these two active cache-writing lines:
+
+```python
+np.save(dataset_npy_path.name, dataset)
+os.system(f'sudo cp {dataset_npy_path.name} {str(dataset_npy_path.absolute())}')
+```
+
+with `np.save(dataset_npy_path, dataset)`. This preserves the loader and data layout while writing its cache directly without `sudo`; the first run builds the cache and subsequent runs reuse it. This in-memory loader requires enough host RAM for the dataset and its temporary arrays.
 
 We also provide model checkpoints of DeepLag and all baselines on three benchmarks. Download `checkpoints.tar` (optional) and extract it at the repository root; it already contains the `checkpoints/` directory and all supplied benchmark/model subdirectories.
 
@@ -89,7 +98,12 @@ We also provide model checkpoints of DeepLag and all baselines on three benchmar
 
 Download Link: [Link](https://zenodo.org/records/24057429/files/checkpoints.tar?download=1). The path format is `{benchmark_nickname}/{model_name}/{time_str}/{model_nickname}_best.pt`
 
-3. Train and evaluate model. We provide the experiment scripts of all benchmarks under the folder `./scripts/`. After replacing `--data-path` in the scripts with your local data directory, you can reproduce the experiment results via the following commands:
+3. Train and evaluate models. Run commands from the repository root. Before running a script in `scripts/`:
+
+- Change its `export CUDA_VISIBLE_DEVICES=...` line to your available GPU index, e.g. `export CUDA_VISIBLE_DEVICES=0` for a single-GPU machine. An export in your terminal does not override the script's own setting.
+- Set training scripts' `--data-path` to your local directory: `./data/Bounded_NS`, `./data/Ocean_Current/data_sea`, or `./data/3D_Smoke`, respectively. Apply the ocean-mask and Smoke-cache changes above first.
+
+Training commands:
 
 ```shell
 bash scripts/bc_deeplag.sh # Train DeepLag on Bounded Navier-Stokes
@@ -100,12 +114,23 @@ bash scripts/smoke_deeplag3d.sh # Train DeepLag on 3D Smoke
 bash scripts/smoke_{baseline_name}3d.sh # Train baseline on 3D Smoke. baseline_name: factformer, fno, gktrm (Galerkin Transformer), gnot, lsm, unet
 ```
 
-To perform standard and long-rollout test with model checkpoints:
+To evaluate the supplied checkpoints, extract `checkpoints.tar` first. In both test scripts, update `CUDA_VISIBLE_DEVICES` and the Bounded Navier-Stokes `--data-path` arguments. For Ocean Current and 3D Smoke, the test programs instead read `data_path` from each selected checkpoint's `configs.txt`, not from the test command line. Edit that field in `checkpoints/{sea,smoke}/{model_name}/{time_str}/configs.txt`, keeping the `key : value` format:
+
+```text
+# Ocean Current configs.txt
+data_path : ./data/Ocean_Current/data_sea
+# 3D Smoke configs.txt
+data_path : ./data/3D_Smoke
+```
+
+Only change the paths, leaving the saved model and experiment settings intact. Keep the extracted checkpoint directory layout (or also update `--ckpt-dir` and each config's `run_save_path` if you move it).
 
 ```shell
-bash test_all.sh
-bash test_all_longrollout.sh
+bash scripts/test_all.sh
+bash scripts/test_all_longrollout.sh
 ```
+
+The first script evaluates the supplied benchmark checkpoints; the second evaluates 30-step rollouts for the 2D benchmarks. To run only one experiment, use its corresponding command block in the script. These are training/evaluation instructions, not a guarantee of bit-for-bit identical metrics across hardware and dependency versions.
 
 4. Develop your own model. Here are the instructions:
    - Add the model file under folder `./models/`.
